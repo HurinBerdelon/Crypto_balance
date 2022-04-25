@@ -44,5 +44,4 @@ export class PrismaCryptoRepository implements ICryptoRepository {
             }
         })
     }
-
 }
