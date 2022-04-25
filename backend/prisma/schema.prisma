@@ -15,8 +15,8 @@ model User {
   name  String
   email String @unique
 
-  cryptos  Crypto @relation(fields: [cryptoId], references: [id], onDelete: Cascade)
-  cryptoId String
+  // cryptos  Crypto @relation(fields: [cryptoId], references: [id], onDelete: Cascade)
+  // cryptoId String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -27,7 +27,7 @@ model Crypto {
   name   String
   token  String @unique
   amount Float
-  User   User[]
+  // User   User[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
