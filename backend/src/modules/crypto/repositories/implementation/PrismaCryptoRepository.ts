@@ -24,6 +24,16 @@ export class PrismaCryptoRepository implements ICryptoRepository {
         return cryptos
     }
 
+    async findByToken(token: string): Promise<Crypto> {
+        const crypto = await this.repository.crypto.findUnique({
+            where: {
+                token
+            }
+        })
+
+        return crypto
+    }
+
     async editTokenAmount(id: string, amount: number): Promise<Crypto> {
         const crypto = await this.repository.crypto.update({
             data: {
