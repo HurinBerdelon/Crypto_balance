@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { container } from "tsyringe";
 import { DeleteCryptoUseCase } from "./DeleteCryptoUseCase";
 
-class DeleteCryptoController {
+export class DeleteCryptoController {
     async handle(request: Request, response: Response): Promise<Response> {
 
         const { id } = request.body
@@ -14,5 +14,3 @@ class DeleteCryptoController {
         return response.status(200).send()
     }
 }
-
-export { DeleteCryptoController }
