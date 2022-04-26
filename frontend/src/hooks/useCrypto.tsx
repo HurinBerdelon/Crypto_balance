@@ -18,6 +18,7 @@ interface CryptoContextData {
     createCrypto({ amount, name, token }: RequestProps): Promise<void>
     updateCryptoAmount(id: string, amount: number): Promise<void>
     deleteCrypto(id: string): Promise<void>
+    getCryptoMarketUSD(token: string): Promise<CryptoSchema>
     tokensList: TokenListSchema[]
 }
 
@@ -36,7 +37,7 @@ export function CryptoProvider({ children }: CryptoProviderProps) {
                 setCryptos(response.data)
             })
 
-        api_coinGecko.get('coins/list')
+        api_coinGecko.get('coins/markets?vs_currency=usd')
             .then(response => {
                 setTokensList(response.data)
             })
@@ -48,7 +49,22 @@ export function CryptoProvider({ children }: CryptoProviderProps) {
             ...requestProps,
         })
 
-        setCryptos([...cryptos, result.data])
+        const cryptoAlreadyExists = cryptos.find(item => item.token === requestProps.token)
+
+        // If crypto does not exists yet, create it
+        if (!cryptoAlreadyExists) {
+            setCryptos([...cryptos, result.data])
+        }
+        // If it already exists, update its amount
+        else {
+            const tempCryptos = [...cryptos]
+
+            const crypto = tempCryptos.findIndex(item => item.token === requestProps.token)
+            tempCryptos.splice(crypto, 1)
+
+            setCryptos([...tempCryptos, result.data])
+        }
+
     }
 
     async function updateCryptoAmount(id: string, amount: number): Promise<void> {
@@ -78,9 +94,17 @@ export function CryptoProvider({ children }: CryptoProviderProps) {
         setCryptos(tempCryptos)
     }
 
+    async function getCryptoMarketUSD(token: string): Promise<CryptoSchema> {
+        const id = tokensList.find(item => item.symbol === token.toLowerCase()).id
+
+        const result = await api_coinGecko.get(`coins/${id}`)
+
+        return result.data
+    }
+
     return (
         <CryptoContext.Provider value={
-            { cryptos, createCrypto, updateCryptoAmount, deleteCrypto, tokensList }
+            { cryptos, createCrypto, updateCryptoAmount, getCryptoMarketUSD, deleteCrypto, tokensList }
         }>
             {children}
         </CryptoContext.Provider>

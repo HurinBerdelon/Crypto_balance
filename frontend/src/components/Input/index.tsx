@@ -10,22 +10,18 @@ export function Input(): JSX.Element {
     const [name, setName] = useState('')
     const [token, setToken] = useState('Select a Token')
 
-    function resetForm() {
-        setAmount(0)
-        setName('')
-        setToken('Select a Token')
+    function findCryptoName(token: string) {
+        const crypto = tokensList.find(crypto => crypto.symbol === token.toLowerCase())
+
+        return crypto
     }
 
     async function handleSubmitCrypto(event) {
         event.preventDefault()
 
-        console.log(amount, token)
-
         await createCrypto({
             amount, name, token
         })
-
-        resetForm()
     }
 
     return (
@@ -35,11 +31,14 @@ export function Input(): JSX.Element {
             <div>
                 <h3>Token</h3>
                 <select
-                    onChange={event => setToken(event.target.value)}
+                    onChange={event => {
+                        setToken(event.target.value)
+                        setName(findCryptoName(event.target.value).name)
+                    }}
                 >
-                    <option disabled value=''>{token}</option>
+                    <option selected disabled value=''>{token}</option>
                     {tokensList.map(token => (
-                        <option key={token.id} value={token.symbol}>{token.symbol}</option>
+                        <option key={token.id} value={token.symbol.toUpperCase()}>{token.symbol.toUpperCase()}</option>
                     ))}
                 </select>
             </div>
@@ -49,7 +48,6 @@ export function Input(): JSX.Element {
                 <input
                     type="number"
                     step='0.00001'
-                    value={amount}
                     onChange={(event) => setAmount(Number(event.target.value))}
                 />
             </div>

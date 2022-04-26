@@ -22,16 +22,19 @@ export const Container = styled.form`
             height: 50%;
             width: 80%;
             border-radius: 0.25rem;
+            text-align: center;
+            font-size: 1.25rem;
+            background: #EEE;
+            border: none;
         }
 
         button {
             margin-top: 1.25rem;
-            border: none;
             font-size: 1.25rem;
             font-weight: bold;
 
             &:hover {
-                filter: brightness(0.9);
+                filter: brightness(1.2);
                 cursor: pointer;
             }
                 
