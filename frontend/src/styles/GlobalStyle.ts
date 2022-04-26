@@ -12,9 +12,26 @@ export const GlobalStyle = createGlobalStyle`
         box-sizing: border-box;
     }
 
-    html {
+    .full-body {
         height: 100vh;
         width: 100vw;
+        
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .content {
+        height: 80%;
+        width: 80%;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        background: #ddd;
+        border-radius: 1rem
     }
 
 `
