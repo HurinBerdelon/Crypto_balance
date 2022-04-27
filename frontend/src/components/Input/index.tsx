@@ -1,5 +1,4 @@
 import { useFormik } from "formik";
-import { useState } from "react";
 import * as yup from 'yup'
 import { useCrypto } from "../../hooks/useCrypto";
 import { Container } from "./style";
@@ -7,19 +6,6 @@ import { Container } from "./style";
 export function Input(): JSX.Element {
 
     const { createCrypto, tokensList } = useCrypto()
-
-    const [tokenName, setTokenName] = useState('')
-
-    function findCryptoName(token: string) {
-        const crypto = tokensList.find(crypto => crypto.symbol === token.toLowerCase())
-
-        return crypto
-    }
-
-    async function handleSubmit(values) {
-
-        setTokenName(findCryptoName(values.token).name)
-    }
 
     const formik = useFormik({
         initialValues: {
@@ -32,8 +18,6 @@ export function Input(): JSX.Element {
         }),
         onSubmit: async (values) => {
 
-            await handleSubmit(values)
-
             await createCrypto({
                 token: values.token,
                 amount: values.amount,
@@ -45,7 +29,7 @@ export function Input(): JSX.Element {
         <Container
             onSubmit={formik.handleSubmit}
         >
-            <div>
+            <div className="inputField">
                 <h3>Token</h3>
                 <select
                     name='token'
@@ -58,11 +42,11 @@ export function Input(): JSX.Element {
                     ))}
                 </select>
                 {formik.touched.token && formik.errors.token ? (
-                    <div>{formik.errors.token}</div>
+                    <div className="errorMessage">{formik.errors.token}</div>
                 ) : null}
             </div>
 
-            <div>
+            <div className="inputField">
                 <h3>Amount</h3>
                 <input
                     type="number"
@@ -72,11 +56,11 @@ export function Input(): JSX.Element {
                     onBlur={formik.handleBlur}
                 />
                 {formik.touched.amount && formik.errors.amount ? (
-                    <div>{formik.errors.amount}</div>
+                    <div className="errorMessage">{formik.errors.amount}</div>
                 ) : null}
             </div>
 
-            <div>
+            <div className="inputField">
                 <button
                     type='submit'
                 >

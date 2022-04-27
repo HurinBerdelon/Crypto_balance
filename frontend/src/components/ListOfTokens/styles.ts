@@ -8,12 +8,17 @@ export const Container = styled.section`
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    color: var(--purple-800);
 
     table {
         width: 40%;
         display: flex;
         flex-direction: column;
         gap: 1rem;
+
+        tbody {
+            color: var(--purple-500)
+        }
 
         tr {
             display: flex;
@@ -66,12 +71,11 @@ export const Container = styled.section`
             }
 
             .edit button{
-                color: #00F;
-
+                color: var(--purple-500);
             }
-
+            
             .delete button{
-                color: #F00;
+                color: var(--red-500);
             }
         }
     }

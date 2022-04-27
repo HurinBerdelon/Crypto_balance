@@ -1,5 +1,3 @@
-import { useState } from 'react';
-import { EditCryptoModal } from './components/EditCryptoModal';
 import { Header } from './components/Header';
 import { Input } from './components/Input';
 import { ListOfTokens } from './components/ListOfTokens';

@@ -64,7 +64,7 @@ export function EditCryptoModal({ isOpen, onRequestClose, currentEditCrypto }: E
                     placeholder={String(currentEditCrypto.amount)}
                 />
                 {formik.touched.amount && formik.errors.amount ? (
-                    <div>{formik.errors.amount}</div>
+                    <div className='errorMessage'>{formik.errors.amount}</div>
                 ) : null}
                 <button
                     type='submit'

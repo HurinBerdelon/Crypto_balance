@@ -22,6 +22,17 @@ export function ListOfTokens(): JSX.Element {
     const [cryptoWithPrice, setCryptoWithPrice] = useState<CryptoSchema[]>([])
 
     useEffect(() => {
+
+        function findCryptoPrice(token: string) {
+            if (tokensList.length === 0) {
+                return
+            }
+
+            const currentCrypto = tokensList.find(item => item.symbol === token.toLowerCase())
+
+            return currentCrypto.current_price
+        }
+
         setCryptoWithPrice(cryptos.map(crypto => {
             return {
                 ...crypto,
@@ -32,16 +43,6 @@ export function ListOfTokens(): JSX.Element {
 
     async function handleDeleteCrypto(id: string): Promise<void> {
         await deleteCrypto(id)
-    }
-
-    function findCryptoPrice(token: string) {
-        if (tokensList.length === 0) {
-            return
-        }
-
-        const currentCrypto = tokensList.find(item => item.symbol === token.toLowerCase())
-
-        return currentCrypto.current_price
     }
 
     return (
@@ -63,7 +64,7 @@ export function ListOfTokens(): JSX.Element {
                 </thead>
                 <tbody>
                     {[...cryptoWithPrice].sort((a, b) => {
-                        return b.amount - a.amount
+                        return b.amount * b.currentPrice - a.amount * a.currentPrice
                     }).map(crypto => (
                         <tr key={crypto.id}>
                             <td className="token">
