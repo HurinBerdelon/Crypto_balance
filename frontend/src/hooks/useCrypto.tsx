@@ -8,17 +8,15 @@ interface CryptoProviderProps {
 }
 
 interface RequestProps {
-    name: string
     token: string
     amount: number
 }
 
 interface CryptoContextData {
     cryptos: CryptoSchema[],
-    createCrypto({ amount, name, token }: RequestProps): Promise<void>
+    createCrypto({ amount, token }: RequestProps): Promise<void>
     updateCryptoAmount(id: string, amount: number): Promise<void>
     deleteCrypto(id: string): Promise<void>
-    getCryptoMarketUSD(token: string): Promise<CryptoSchema>
     tokensList: TokenListSchema[]
 }
 
@@ -94,17 +92,9 @@ export function CryptoProvider({ children }: CryptoProviderProps) {
         setCryptos(tempCryptos)
     }
 
-    async function getCryptoMarketUSD(token: string): Promise<CryptoSchema> {
-        const id = tokensList.find(item => item.symbol === token.toLowerCase()).id
-
-        const result = await api_coinGecko.get(`coins/${id}`)
-
-        return result.data
-    }
-
     return (
         <CryptoContext.Provider value={
-            { cryptos, createCrypto, updateCryptoAmount, getCryptoMarketUSD, deleteCrypto, tokensList }
+            { cryptos, createCrypto, updateCryptoAmount, deleteCrypto, tokensList }
         }>
             {children}
         </CryptoContext.Provider>

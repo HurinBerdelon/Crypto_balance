@@ -10,7 +10,7 @@ export const Container = styled.section`
     justify-content: center;
 
     table {
-        width: 60%;
+        width: 40%;
         display: flex;
         flex-direction: column;
         gap: 1rem;
@@ -23,25 +23,18 @@ export const Container = styled.section`
             border-bottom: dashed 1px;
 
             .token {
-                width: 15%;
+                width: 25%;
                 text-align: start;
-                
             }
 
-            .name {
-                width: 30%;
-                text-align: start;
-                
-            }
 
             .amount {
-                width: 20%;
+                width: 25%;
                 text-align: left;
-                
             }
 
             .amount_in_usd {
-                width: 25%;
+                width: 40%;
                 text-align: left;
             }
 

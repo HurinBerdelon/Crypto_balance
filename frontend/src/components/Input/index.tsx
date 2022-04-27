@@ -1,4 +1,6 @@
+import { useFormik } from "formik";
 import { useState } from "react";
+import * as yup from 'yup'
 import { useCrypto } from "../../hooks/useCrypto";
 import { Container } from "./style";
 
@@ -6,9 +8,7 @@ export function Input(): JSX.Element {
 
     const { createCrypto, tokensList } = useCrypto()
 
-    const [amount, setAmount] = useState(0)
-    const [name, setName] = useState('')
-    const [token, setToken] = useState('Select a Token')
+    const [tokenName, setTokenName] = useState('')
 
     function findCryptoName(token: string) {
         const crypto = tokensList.find(crypto => crypto.symbol === token.toLowerCase())
@@ -16,31 +16,50 @@ export function Input(): JSX.Element {
         return crypto
     }
 
-    async function handleSubmitCrypto(event) {
-        event.preventDefault()
+    async function handleSubmit(values) {
 
-        await createCrypto({
-            amount, name, token
-        })
+        setTokenName(findCryptoName(values.token).name)
     }
+
+    const formik = useFormik({
+        initialValues: {
+            amount: 0,
+            token: '',
+        },
+        validationSchema: yup.object({
+            token: yup.string().required('Token is required'),
+            amount: yup.number().required('Amount is required').min(0.00001, 'Amount should be greater than 0.00001')
+        }),
+        onSubmit: async (values) => {
+
+            await handleSubmit(values)
+
+            await createCrypto({
+                token: values.token,
+                amount: values.amount,
+            })
+        }
+    })
 
     return (
         <Container
-            onSubmit={handleSubmitCrypto}
+            onSubmit={formik.handleSubmit}
         >
             <div>
                 <h3>Token</h3>
                 <select
-                    onChange={event => {
-                        setToken(event.target.value)
-                        setName(findCryptoName(event.target.value).name)
-                    }}
+                    name='token'
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
                 >
-                    <option selected disabled value=''>{token}</option>
+                    <option selected disabled value=''>Select a Crypto</option>
                     {tokensList.map(token => (
                         <option key={token.id} value={token.symbol.toUpperCase()}>{token.symbol.toUpperCase()}</option>
                     ))}
                 </select>
+                {formik.touched.token && formik.errors.token ? (
+                    <div>{formik.errors.token}</div>
+                ) : null}
             </div>
 
             <div>
@@ -48,8 +67,13 @@ export function Input(): JSX.Element {
                 <input
                     type="number"
                     step='0.00001'
-                    onChange={(event) => setAmount(Number(event.target.value))}
+                    name='amount'
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
                 />
+                {formik.touched.amount && formik.errors.amount ? (
+                    <div>{formik.errors.amount}</div>
+                ) : null}
             </div>
 
             <div>
