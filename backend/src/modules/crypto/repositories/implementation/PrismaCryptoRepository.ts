@@ -6,10 +6,9 @@ export class PrismaCryptoRepository implements ICryptoRepository {
 
     private repository = new PrismaClient()
 
-    async createToken({ token, name, amount }: ICreateCryptoDTO): Promise<Crypto> {
+    async createToken({ token, amount }: ICreateCryptoDTO): Promise<Crypto> {
         const crypto = await this.repository.crypto.create({
             data: {
-                name,
                 token,
                 amount
             }

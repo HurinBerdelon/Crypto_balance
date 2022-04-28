@@ -24,7 +24,6 @@ model User {
 
 model Crypto {
   id     String @id @default(uuid())
-  name   String
   token  String @unique
   amount Float
   // User   User[]

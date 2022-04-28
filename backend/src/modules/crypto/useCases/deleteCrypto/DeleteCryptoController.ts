@@ -5,7 +5,7 @@ import { DeleteCryptoUseCase } from "./DeleteCryptoUseCase";
 export class DeleteCryptoController {
     async handle(request: Request, response: Response): Promise<Response> {
 
-        const { id } = request.body
+        const { id } = request.params
 
         const deleteCryptoUseCase = container.resolve(DeleteCryptoUseCase)
 
