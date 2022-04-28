@@ -18,10 +18,10 @@ export function EditCryptoModal({ isOpen, onRequestClose, currentEditCrypto }: E
 
     const formik = useFormik({
         initialValues: {
-            amount: currentEditCrypto.amount
+            amount: 0
         },
         validationSchema: yup.object({
-            amount: yup.number().required('Amount is required')
+            amount: yup.number().required('Amount is required').min(0.00001, 'Amount should be greater than 0.00001')
         }),
         onSubmit: async (values) => {
             await updateCryptoAmount(currentEditCrypto.id, values.amount)

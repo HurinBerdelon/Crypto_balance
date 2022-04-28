@@ -21,6 +21,10 @@ export const Container = styled.form`
         font-weight: 400;
         font-size: 1rem;
 
+        &:disabled {
+            filter: brightness(.95)
+        }
+
         &::placeholder{
             color: var(--purple-200);
         }
