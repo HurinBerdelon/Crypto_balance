@@ -7,13 +7,12 @@ export class CreateCryptoController {
 
     async handle(request: Request, response: Response): Promise<Response> {
 
-        const { amount, token, name }: ICreateCryptoDTO = request.body
+        const { amount, token }: ICreateCryptoDTO = request.body
 
         const createCryptoUseCase = container.resolve(CreateCryptoUseCase)
 
         const result = await createCryptoUseCase.execute({
             amount,
-            name,
             token
         })
 

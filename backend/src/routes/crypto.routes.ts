@@ -13,5 +13,5 @@ const updateCryptoController = new UpdateCryptoAmountController()
 
 cryptoRoutes.get('', getAllCryptosController.handle)
 cryptoRoutes.post('', createCryptoController.handle)
-cryptoRoutes.delete('/delete', deleteCryptoController.handle)
+cryptoRoutes.delete('/delete/:id', deleteCryptoController.handle)
 cryptoRoutes.put('/update', updateCryptoController.handle)

@@ -11,7 +11,7 @@ export class CreateCryptoUseCase {
         private cryptoRepository: ICryptoRepository
     ) { }
 
-    async execute({ amount, name, token }: ICreateCryptoDTO): Promise<Crypto> {
+    async execute({ amount, token }: ICreateCryptoDTO): Promise<Crypto> {
 
         const cryptoAlreadyExists = await this.cryptoRepository.findByToken(token)
 
@@ -20,7 +20,6 @@ export class CreateCryptoUseCase {
 
             const crypto = await this.cryptoRepository.createToken({
                 token,
-                name,
                 amount
             })
 
